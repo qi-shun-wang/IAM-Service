@@ -39,7 +39,7 @@ public final class IAMPolicyMiddleware<P>: Middleware where P: IAMPolicyAllowabl
                     }
                     
                 default:
-                    throw Abort(.unauthorized)
+                    throw Abort(.unauthorized, reason: res.http.body.debugDescription)
                 }
         }
     }
