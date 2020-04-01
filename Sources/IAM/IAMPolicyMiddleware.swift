@@ -21,9 +21,9 @@ public final class IAMPolicyMiddleware<P>: Middleware where P: IAMPolicyAllowabl
         }
         
         let url = hostname + ":\(port)\(checkPath)"
-        let httpReq = HTTPRequest(method: .GET,
-                                  url: url,
-                                  headers: request.http.headers)
+        var httpReq = HTTPRequest(method: .GET, url: url)
+        guard let token = request.http.headers.bearerAuthorization?.token else {throw Abort(.unauthorized)}
+        httpReq.headers.add(name: HTTPHeaderName.authorization, value: "Bearer \(token)")
         let req = Request(http: httpReq, using: request)
         
         return try request.client()
