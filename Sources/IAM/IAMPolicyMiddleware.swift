@@ -10,6 +10,7 @@ public final class IAMPolicyMiddleware<P>: Middleware where P: IAMPolicyAllowabl
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
         let config = try request.make(IAMConfig.self)
+        guard config.isEnable else {return try next.respond(to: request)}
         let hostname = config.hostname
         let port = config.port
         let checkPath = config.checkPath
