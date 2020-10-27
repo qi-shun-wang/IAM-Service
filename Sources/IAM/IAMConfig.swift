@@ -17,3 +17,4 @@ public class IAMConfig {
         self.isEnable = isEnable
     }
 }
+
